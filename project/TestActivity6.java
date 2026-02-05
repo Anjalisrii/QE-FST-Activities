@@ -1,0 +1,42 @@
+package project;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.time.Duration;
+
+public class TestActivity6 {
+
+    WebDriver driver;
+
+    @BeforeClass
+    public void setUp() {
+        driver = new FirefoxDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://alchemy.hguy.co/lms");
+    }
+
+    @Test
+    public void verifyMyAccountPage() {
+        driver.findElement(By.linkText("My Account")).click();
+        String actualTitle = driver.getTitle();
+        String expectedTitle = "My Account – Alchemy LMS";
+        Assert.assertEquals(
+                actualTitle,
+                expectedTitle,
+                "You are NOT on My Account page!"
+        );
+
+        System.out.println("Successfully navigated to My Account page");
+    }
+
+    @AfterClass
+    public void tearDown() {
+        driver.quit();
+    }
+}
